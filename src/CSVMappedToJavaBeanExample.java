@@ -2,6 +2,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
@@ -10,14 +11,25 @@ public class CSVMappedToJavaBeanExample
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void main(String[] args) throws Exception
     {
+
+        File folder = new File("/Users/gregnightingale/Downloads/quantquote_daily_sp500_83986/daily/");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                System.out.println("File " + listOfFiles[i].getName());
+                processFile(listOfFiles[i]);
+            } else {
+                System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+    }
+
+    static private void processFile(File file) throws Exception {
         CsvToBean csv = new CsvToBean();
-
-        String csvFilename = "/Users/gregnightingale/Downloads/quantquote_daily_sp500_83986/daily/table_a.csv";
-        CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
-
+        CSVReader csvReader = new CSVReader(new FileReader(file));
         //Set column mapping strategy
         List list = csv.parse(setColumMapping(), csvReader);
-
         for (Object object : list) {
             EodQuants eod = (EodQuants) object;
             System.out.println(eod);
