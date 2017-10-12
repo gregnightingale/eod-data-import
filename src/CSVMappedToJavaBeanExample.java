@@ -8,21 +8,25 @@ import java.util.List;
 
 public class CSVMappedToJavaBeanExample
 {
+    static Database database;
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void main(String[] args) throws Exception
     {
-
+        database = new Database();
         File folder = new File("/Users/gregnightingale/Downloads/quantquote_daily_sp500_83986/daily/");
         File[] listOfFiles = folder.listFiles();
+//        database.connectToDatasource();
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 System.out.println("File " + listOfFiles[i].getName());
-                processFile(listOfFiles[i]);
+//                processFile(listOfFiles[i]);
             } else {
                 System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
+
+        database.createDbUserTable("FU");
     }
 
     static private void processFile(File file) throws Exception {
